@@ -352,18 +352,32 @@ export const PersonalizedHomeScreen: React.FC<RootStackScreenProps<'Personalized
                 </Text>
               </View>
               <View className="w-[48%] bg-slate-900/40 border border-slate-700/40 rounded-lg p-2 mb-2">
-                <Text className="text-[9px] font-semibold text-slate-400 uppercase">UV</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-[9px] font-semibold text-slate-400 uppercase">UV</Text>
+                  {dataMode === 'live' && currentWeatherData.externalData?.openMeteo?.available && (
+                    <Text className="text-[8px] text-sky-400 font-medium">Open-Meteo</Text>
+                  )}
+                </View>
                 <Text className="text-[11px] font-bold text-white mt-0.5">
                   {dataMode === 'live'
-                    ? 'N/A (IMD Obs)'
+                    ? currentWeatherData.externalData?.openMeteo?.available
+                      ? `${currentWeatherData.uvIndex} of 12`
+                      : 'N/A (IMD Obs)'
                     : `${currentWeatherData.uvIndex} of 12`}
                 </Text>
               </View>
               <View className="w-[48%] bg-slate-900/40 border border-slate-700/40 rounded-lg p-2">
-                <Text className="text-[9px] font-semibold text-slate-400 uppercase">Visibility</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-[9px] font-semibold text-slate-400 uppercase">Visibility</Text>
+                  {dataMode === 'live' && currentWeatherData.externalData?.openMeteo?.available && (
+                    <Text className="text-[8px] text-sky-400 font-medium">Open-Meteo</Text>
+                  )}
+                </View>
                 <Text className="text-[11px] font-bold text-white mt-0.5">
                   {dataMode === 'live'
-                    ? 'N/A (IMD Obs)'
+                    ? currentWeatherData.externalData?.openMeteo?.available
+                      ? `${currentWeatherData.visibility} km`
+                      : 'N/A (IMD Obs)'
                     : `${currentWeatherData.visibility} km`}
                 </Text>
               </View>
@@ -375,11 +389,23 @@ export const PersonalizedHomeScreen: React.FC<RootStackScreenProps<'Personalized
               </View>
             </View>
 
-            {/* Mandatory Data Mode Disclaimer */}
+            {/* Google Pollen Enrichment Banner (When Available) */}
+            {currentWeatherData.pollen?.available && (
+              <View className="mt-2 bg-emerald-950/40 border border-emerald-500/30 rounded-lg p-2 flex-row items-center justify-between">
+                <Text className="text-[10px] text-emerald-300 font-semibold">
+                  🌸 Pollen: {currentWeatherData.pollen.category} ({currentWeatherData.pollen.dominantPollenType})
+                </Text>
+                <Text className="text-[8px] text-emerald-400 uppercase font-bold">Google Pollen</Text>
+              </View>
+            )}
+
+            {/* Mandatory Data Mode & Attribution Disclaimer */}
             <View className="mt-2.5 pt-2 border-t border-slate-700/40">
               <Text className="text-[9px] text-slate-400 text-center font-medium leading-3 italic">
                 {dataMode === 'live'
-                  ? 'Official India Meteorological Department (IMD) observation data'
+                  ? currentWeatherData.externalData?.openMeteo?.available
+                    ? 'Primary: Official IMD Observation • UV & Visibility: Open-Meteo API'
+                    : 'Official India Meteorological Department (IMD) observation data'
                   : 'Prototype demo scenario • Not live IMD data'}
               </Text>
             </View>

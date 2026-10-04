@@ -12,8 +12,8 @@ export const APP_METADATA = {
 } as const;
 
 export const API_CONFIG = {
-  // Configurable via EXPO_PUBLIC_BACKEND_URL (e.g. for physical devices or Android emulator)
-  backendUrl: process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:5000',
+  // Configurable via EXPO_PUBLIC_BACKEND_URL
+  backendUrl: process.env.EXPO_PUBLIC_BACKEND_URL || 'https://personalized-mausam-backend.onrender.com',
   defaultCity: 'Pune',
   requestTimeoutMs: 8000,
 } as const;

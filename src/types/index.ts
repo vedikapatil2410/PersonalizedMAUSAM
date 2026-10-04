@@ -100,6 +100,47 @@ export type DemoScenarioId =
   | 'HIGH_UV'
   | 'SEVERE_WEATHER';
 
+export interface ExternalWeatherEnrichment {
+  openMeteo?: {
+    available: boolean;
+    data: {
+      uvIndex: number;
+      visibilityKm: number;
+      rawVisibilityMeters: number;
+      timestamp: string;
+      source: string;
+    } | null;
+    error?: string;
+  };
+  pollen?: {
+    available: boolean;
+    data: {
+      available: boolean;
+      indexValue: number;
+      category: string;
+      dominantPollenType: string;
+      types: Array<{
+        code: string;
+        displayName: string;
+        inSeason: boolean;
+        indexValue: number;
+        category: string;
+      }>;
+      timestamp: string;
+      source: string;
+    } | null;
+    error?: string;
+  };
+  enrichedAt?: string;
+}
+
+export interface PollenInfo {
+  available: boolean;
+  indexValue: number;
+  category: string;
+  dominantPollenType: string;
+}
+
 export interface WeatherData {
   location: string;
   timestamp: string;
@@ -117,6 +158,8 @@ export interface WeatherData {
   sunset: string;
   severity: WeatherSeverityType;
   summary: string;
+  externalData?: ExternalWeatherEnrichment;
+  pollen?: PollenInfo | null;
 }
 
 export interface DemoWeatherScenario {

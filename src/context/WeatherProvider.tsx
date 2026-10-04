@@ -62,6 +62,15 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
           sunset: raw.sunset || '18:30 (IST)',
           severity: raw.severity || 'normal',
           summary: raw.summary || 'Official IMD observation data.',
+          externalData: payload.externalData || undefined,
+          pollen: payload.externalData?.pollen?.available && payload.externalData.pollen.data
+            ? {
+                available: true,
+                indexValue: payload.externalData.pollen.data.indexValue,
+                category: payload.externalData.pollen.data.category,
+                dominantPollenType: payload.externalData.pollen.data.dominantPollenType,
+              }
+            : null,
         };
         setLiveWeather(mappedWeather);
         setError(null);

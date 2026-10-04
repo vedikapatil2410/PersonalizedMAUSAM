@@ -3,6 +3,8 @@ import type { WeatherDataMode, WeatherData } from './index';
 export type DataSourceType =
   | 'live_imd'
   | 'demo_scenario'
+  | 'open_meteo'
+  | 'google_pollen'
   | 'rule_personalization'
   | 'safety_override'
   | 'user_preferences';
